@@ -11,11 +11,11 @@ Published PDF: [https://sites.santafe.edu/~simon/lavender_flash.pdf](https://sit
 
 At 00:11 EDT on 9 August 2026, a fixed-exposure skyline camera (Elgato Facecam 4K, 100 ms manual exposure, locked 5600 K daylight white balance) in Pittsburgh captured a single frame in which an overcast midnight sky turned pale lavender: top-band mean $(R,G,B) = (172, 170, 223)$ against sodium-amber baselines of $(22, 19, 7)$ before and $(9, 8, 4)$ after.
 
-This repository contains the complete data, analysis code, figures, and LaTeX source for **v4** of *The Lavender Flash of August 9th*, which performs a radiometric and colorimetric closure test from plasma emission physics through cloud diffusion, clear-air Rayleigh extinction, and the camera's imaging pipeline:
+This repository contains the complete data, analysis code, figures, and LaTeX source for *The Lavender Flash of August 9th*, a radiometric and colorimetric closure test from plasma emission physics through cloud diffusion, clear-air Rayleigh extinction, and the camera's imaging pipeline:
 
-1. **Archive camera validation (`data/science.csv`, 769 daytime sky frames):** High-sun clear blue skies ($n=288$, median $B/G = 2.19$) and overcast skies ($n=481$, median $B/G = 1.32$) at locked 5600 K WB demonstrate that comparing linearized sRGB pixels to un-matrixed Bayer sensitivities omits the ISP's $3\times 3$ color-correction matrix (CCM) and fails even on clear afternoon skies ($\le 1.81$).
-2. **Spectral closure test (`lightning_model.py`):** Restoring a colorimetrically consistent pipeline (Bayer+CCM or CIE-sRGB) overturns earlier claims of a mandatory 12–21% $\mathrm{N}_2^+$ molecular band fraction. Instead, an optically thin Kramers free–free/free–bound continuum plus $\mathrm{N}\,\textsc{ii}$ and H Balmer lines reproduces the flash with $0$–$14\%$ $\mathrm{N}_2^+$ (e.g. $(w_c, w_a, w_m) = (0.57, 0.38, 0.05)$ in CIE-sRGB at 5600 K), strongly favors an optically thin/cooling continuum over 30,000 K Planck, and proves that H$\alpha$ (656.3 nm) from dissociated water vapor is strictly required to reach $R/G > 1$.
-3. **4K radiometry (`data/lightning_*.jpg`):** Pixel-wise linearization using the Elgato Facecam 4K's independently calibrated per-channel empirical Camera Response Function (CRF) removes sRGB's $+6.3\%$ brightness-dependent $R/G$ drift, isolates blue-channel highlight roll-off above DN 220, and confirms full-frame rolling-shutter uniformity.
+1. **4K radiometry (`data/lightning_*.jpg`):** Pixel-wise linearization using the Elgato Facecam 4K's independently calibrated per-channel empirical Camera Response Function (CRF) removes sRGB's $+6.3\%$ brightness-dependent $R/G$ drift, isolates blue-channel highlight roll-off above DN 220, and confirms full-frame rolling-shutter uniformity.
+2. **Archive camera validation (`data/science.csv`, 769 daytime sky frames):** High-sun clear blue skies ($n=288$, median $B/G = 2.19$) and overcast skies ($n=481$, median $B/G = 1.32$) at locked 5600 K WB validate a color-corrected sRGB pipeline (Bayer $+ 3\times 3$ CCM, or CIE-sRGB), while showing that un-matrixed Bayer sensitivities fall short even on clear afternoon skies ($\le 1.81$).
+3. **Spectral closure test (`lightning_model.py`):** Passing a three-component emission model through the validated pipeline yields three structural constraints: an optically thin, cooling Kramers continuum (and/or longer path reddening) is strongly favored over 30,000 K Planck; H$\alpha$ (656.3 nm) from dissociated water vapor is strictly required to lift $R/G > 1$; and molecular $\mathrm{N}_2^+$ emission is bounded to $0$–$14\%$ (e.g. $(w_c, w_a, w_m) = (0.57, 0.38, 0.05)$ in CIE-sRGB at 5600 K), consistent with high-speed return-stroke spectroscopy.
 
 ## Reproducing the Analysis & Figures
 
@@ -36,7 +36,7 @@ pdflatex LAVENDER_FLASH.tex && pdflatex LAVENDER_FLASH.tex
 
 | Path | Description |
 |---|---|
-| `LAVENDER_FLASH.pdf` | Compiled paper (v4) |
+| `LAVENDER_FLASH.pdf` | Compiled paper |
 | `LAVENDER_FLASH.tex` | LaTeX source |
 | `lightning_model.py` | Unified radiometry, archive validation, spectral inversion, and figure generation script |
 | `fig2a.pro` | Companion IDL 9.0 script for the log–linear emission spectrum |
